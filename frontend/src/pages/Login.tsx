@@ -1,61 +1,87 @@
-import { Container, Typography, Button, Stack } from '@mui/material';
+import { Container, Typography, TextField, Button, Stack, Box } from '@mui/material';
+import { useState } from 'react';
+import LockIcon from '@mui/icons-material/Lock';
 
 function Login() {
+  const bduser = 'moises';
+  const bdpasswd = '1234';
+
+  const [usuario, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSubmit = (e: any) => {
+    // Para que no mande el formulario, sino que haga lo que yo le diga.
+    e.preventDefault();
+    
+    if (usuario === bduser && password === bdpasswd) {
+      console.log('Login exitoso');
+    }
+    else {
+      console.log('Usuario o contraseña incorrectos');
+    }
+  };
+
   return (
-    <Container component="main" sx={{ my: 4 }} aria-label="Página de inicio de sesión">
-      <header>
-        <Typography variant="h1" color="primary">
-          h1, color "primary" (color primario de la aplicación)
-        </Typography>
-      </header>
-      
-      <nav aria-label="Navegación de ejemplo">
-        <Button variant="text" color="primary">
-          Botón 1 (color primary)
-        </Button>
-      </nav>
-      
-      <Stack component="section" spacing={2} aria-label="Contenido principal">
-        <Typography variant="h2" color="secondary">
-          h2, color "secondary" (color secundario de la aplicación)
-        </Typography>
-        
-        <Typography variant="h3" color="error">
-          h3, color "error" (color de error, rojo)
-        </Typography>
-        
-        <Typography variant="subtitle1" color="text.secondary">
-          subtitle1, color "text.secondary" (color secundario del texto)
+    <Container
+      component="main"
+      maxWidth="xs"
+      sx={{ my: 4 }}
+      aria-label="Página de inicio de sesión"
+    >
+      <Box
+        component='form'
+        onSubmit={handleSubmit}
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          p: 4,
+          borderRadius: 2,
+          boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)', // sombreado del recuadro login
+          backgroundColor: 'primary.light',
+          color: 'primary.light',
+        }}
+      >
+        <Typography variant="h4" color="primary.main">
+          Sistema de Acceso
         </Typography>
         
-        <Typography variant="body1" color="text.primary">
-          body1, color "text.primary" (color primario del texto)
-        </Typography>
+        <LockIcon sx={{ fontSize: 40, mb: 2, color: 'info.main' }} />
         
-        <Typography variant="caption" color="text.disabled">
-          caption, color "text.disabled"
-        </Typography>
-        
-        <Button variant="contained" color="secondary">
-          Botón 2 (color secondary)
-        </Button>
-        
-        <Button variant="outlined" color="error">
-          Botón 3 (color error)
-        </Button>
-        
-        <Button variant="contained" color="success">
-          Botón 4 (color success)
-        </Button>
-      </Stack>
-      
-      <footer>
-        <Typography variant="body2" color="text.secondary">
-          Este es el footer
-        </Typography>
-      </footer>
+        <Stack spacing={2} width="100%">
+          <TextField
+            variant="outlined"
+            required
+            id="usuario"
+            label="Usuario"
+            name="usuario"
+            value={usuario}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          
+          <TextField
+            variant="outlined"
+            required
+            name="password"
+            label="Contraseña"
+            type="password"
+            id="pass"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          
+          <Button
+            type="submit"
+            variant="contained"
+            color="secondary"
+            size="large"
+          >
+            Acceder
+          </Button>
+        </Stack>
+      </Box>
     </Container>
   );
-};
+}
 
 export default Login;
