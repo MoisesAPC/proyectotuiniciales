@@ -1,4 +1,4 @@
-import { Container, Typography, TextField, Button, Stack, Box } from '@mui/material';
+import { Container, Typography, TextField, Button, Stack, Box, Alert } from '@mui/material';
 import { useState } from 'react';
 import LockIcon from '@mui/icons-material/Lock';
 
@@ -8,16 +8,17 @@ function Login() {
 
   const [usuario, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [alertInfo, setAlertInfo] = useState({ show: false, message: '', severity: 'success' });
 
   const handleSubmit = (e: any) => {
     // Para que no mande el formulario, sino que haga lo que yo le diga.
     e.preventDefault();
     
     if (usuario === bduser && password === bdpasswd) {
-      console.log('Login exitoso');
+      setAlertInfo({ show: true, message: 'Login exitoso', severity: 'success' });
     }
     else {
-      console.log('Usuario o contraseña incorrectos');
+      setAlertInfo({ show: true, message: 'Usuario o contraseña incorrectos', severity: 'error' });
     }
   };
 
@@ -80,6 +81,13 @@ function Login() {
           </Button>
         </Stack>
       </Box>
+
+      {alertInfo.show && (
+        <Alert severity={alertInfo.severity} sx={{ mt: 2 }}>
+          {alertInfo.message}
+        </Alert>
+      )}
+      
     </Container>
   );
 }
