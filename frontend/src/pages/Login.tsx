@@ -1,8 +1,11 @@
 import { Container, Typography, TextField, Button, Stack, Box, Alert } from '@mui/material';
 import { useState } from 'react';
 import LockIcon from '@mui/icons-material/Lock';
+import { useNavigate } from 'react-router-dom'
 
 function Login() {
+  const navigate = useNavigate()
+
   const bduser = 'moises';
   const bdpasswd = '1234';
 
@@ -16,6 +19,7 @@ function Login() {
     
     if (usuario === bduser && password === bdpasswd) {
       setAlertInfo({ show: true, message: 'Login exitoso', severity: 'success' });
+      navigate('/home')
     }
     else {
       setAlertInfo({ show: true, message: 'Usuario o contraseña incorrectos', severity: 'error' });
