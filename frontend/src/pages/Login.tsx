@@ -20,6 +20,9 @@ function Login() {
     else {
       setAlertInfo({ show: true, message: 'Usuario o contraseña incorrectos', severity: 'error' });
     }
+
+    console.log('Usuario: ', usuario)
+    console.log('Contraseña: ', password)
   };
 
   return (
