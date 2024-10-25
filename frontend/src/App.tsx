@@ -1,11 +1,32 @@
-import { Typography } from '@mui/material';
+import Login from './pages/Login'
+import Home from './pages/Home'
+import Reports from './pages/Reports'
+import {createBrowserRouter, RouterProvider} from 'react-router-dom'
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    children: [
+      {
+        index: true,
+        element: <Login/>
+      },
+      {
+        path: 'home',
+        element: <Home/>
+      },
+      {
+        path: 'reports',
+        element: <Reports/>
+      }
+    ]
+  },
+]);
 
 function App() {
   return (
-    <Typography variant="h1">
-      Página de Login de Moisés Antonio Pestano Castro
-    </Typography>
-  );
+    <RouterProvider router={router} />
+  )
 }
 
-export default App
+export default App;

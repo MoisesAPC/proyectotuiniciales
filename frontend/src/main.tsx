@@ -34,7 +34,6 @@ createRoot(document.getElementById('root')!).render(
     <ThemeProvider theme={customTheme}>
       <CssBaseline />
       <App />
-      <Login />
     </ThemeProvider>
   </StrictMode>,
 )
