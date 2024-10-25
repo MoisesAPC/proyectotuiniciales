@@ -82,6 +82,8 @@ function Login() {
         </Stack>
       </Box>
 
+      {/* SOLAMENTE ejecutaremos el componente "Alert" si la variable "alertInfo.show" está "true"
+          (línea 18 de este fichero) */}
       {alertInfo.show && (
         <Alert severity={alertInfo.severity} sx={{ mt: 2 }}>
           {alertInfo.message}
