@@ -3,30 +3,43 @@ import { useState } from 'react';
 import LockIcon from '@mui/icons-material/Lock';
 import { useNavigate } from 'react-router-dom'
 
+// Importamos el useDispatch del react-redux
+import { useDispatch} from 'react-redux'
+// Importamos las acciones que están en el fichero authSlice.ts
+import { authActions } from '../store/authSlice';
+
+
 function Login() {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const bduser = 'moises';
   const bdpasswd = '1234';
 
-  const [usuario, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [data, setData] = useState({ user: '', password: '' });
   const [alertInfo, setAlertInfo] = useState({ show: false, message: '', severity: 'success' });
 
   const handleSubmit = (e: any) => {
     // Para que no mande el formulario, sino que haga lo que yo le diga.
     e.preventDefault();
     
-    if (usuario === bduser && password === bdpasswd) {
+    if (data.user === bduser && data.password === bdpasswd) {
       setAlertInfo({ show: true, message: 'Login exitoso', severity: 'success' });
+
+      // Aquí pongo el dispatch para cambiar el estado a login en el store del redux
+      dispatch(authActions.login({
+        name: data.user, // data.user es el nombre de usuario que ha ingresado el usuario
+        rol: 'administrador'
+      })) 
+
       navigate('/home')
     }
     else {
       setAlertInfo({ show: true, message: 'Usuario o contraseña incorrectos', severity: 'error' });
     }
 
-    console.log('Usuario: ', usuario)
-    console.log('Contraseña: ', password)
+    console.log('Usuario: ', data.user)
+    console.log('Contraseña: ', data.password)
   };
 
   return (
@@ -63,8 +76,8 @@ function Login() {
             id="usuario"
             label="Usuario"
             name="usuario"
-            value={usuario}
-            onChange={(e) => setUsername(e.target.value)}
+            value={data.user}
+            onChange={(e) => setData({ ...data, user: e.target.value })}
           />
           
           <TextField
@@ -74,8 +87,8 @@ function Login() {
             label="Contraseña"
             type="password"
             id="pass"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={data.password}
+            onChange={(e) => setData({ ...data, password: e.target.value })}
           />
           
           <Button
