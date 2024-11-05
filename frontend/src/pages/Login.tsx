@@ -13,30 +13,37 @@ function Login() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const bduser = 'moises';
-  const bdpasswd = '1234';
-
   const [data, setData] = useState({ user: '', password: '' });
   const [alertInfo, setAlertInfo] = useState({ show: false, message: '', severity: 'success' });
+
+  async function isVerifiedUser () {
+    fetch(`http://localhost:3030/login?user=${data.user}&password=${data.password}`)
+    .then(response => response.json())
+    .then (response => {
+      console.log('Lo que nos llega de la base de datos: ')
+      console.log(response.data)
+      if (response.data.length !== 0) {
+        setAlertInfo({ show: true, message: 'Login exitoso', severity: 'success' });
+
+        // Aquí pongo el dispatch para cambiar el estado a login en el store del redux
+        dispatch(authActions.login({
+          name: data.user, // data.user es el nombre de usuario que ha ingresado el usuario
+          rol: 'administrador'
+        }))
+
+        navigate('/home')
+      }
+      else {
+        setAlertInfo({ show: true, message: 'Usuario o contraseña incorrectos', severity: 'error' });
+      }
+    })
+  }
 
   const handleSubmit = (e: any) => {
     // Para que no mande el formulario, sino que haga lo que yo le diga.
     e.preventDefault();
     
-    if (data.user === bduser && data.password === bdpasswd) {
-      setAlertInfo({ show: true, message: 'Login exitoso', severity: 'success' });
-
-      // Aquí pongo el dispatch para cambiar el estado a login en el store del redux
-      dispatch(authActions.login({
-        name: data.user, // data.user es el nombre de usuario que ha ingresado el usuario
-        rol: 'administrador'
-      })) 
-
-      navigate('/home')
-    }
-    else {
-      setAlertInfo({ show: true, message: 'Usuario o contraseña incorrectos', severity: 'error' });
-    }
+    isVerifiedUser()
 
     console.log('Usuario: ', data.user)
     console.log('Contraseña: ', data.password)
