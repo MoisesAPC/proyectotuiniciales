@@ -11,6 +11,8 @@ import { authActions } from '../store/authSlice';
 // Importamos el useDispatch del react-redux
 import { useDispatch} from 'react-redux'
 
+import Menu from '../components/Menu'
+
 function Home() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -50,6 +52,8 @@ function Home() {
           SALIR
         </Button>
       </div>
+
+      <Menu/>
     </>
   );
 }
