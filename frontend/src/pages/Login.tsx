@@ -20,6 +20,8 @@ function Login() {
     fetch(`http://localhost:3030/login?user=${data.user}&password=${data.password}`)
     .then(response => response.json())
     .then (response => {
+
+      // "data" es lo que nos llega desde la base de datos (el nombre y el rol, cuando le hicimos el SELECT)
       console.log('Lo que nos llega de la base de datos: ')
       console.log(response.data)
       if (response.data.length !== 0) {
@@ -28,7 +30,7 @@ function Login() {
         // Aquí pongo el dispatch para cambiar el estado a login en el store del redux
         dispatch(authActions.login({
           name: data.user, // data.user es el nombre de usuario que ha ingresado el usuario
-          rol: 'administrador'
+          rol: response.data.rol  // El rol proveniente de la base de datos
         }))
 
         navigate('/home')

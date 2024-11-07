@@ -15,10 +15,33 @@ import HomeIcon from '@mui/icons-material/Home';
 import ArticleIcon from '@mui/icons-material/Article';
 import HelpIcon from '@mui/icons-material/Help';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import Drawer from '@mui/material/Drawer';
+// Importamos el useSelector del react-redux
+import { useSelector } from 'react-redux'
+// Importamos lo que necesitamos para el tipo del selector()
+import { RootState} from '../store/index'
+//Para usar el useEffect debemos importarlo
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 function Menu() {
+  const navigate = useNavigate()
+  
   const [open, setOpen] = React.useState(false);
+
+  // Almacenamos en la variable userData lo que obtenemos del store usando el hook useSelector
+  const userData = useSelector((state: RootState) => state.authenticator)
+
+  //Trozo de código donde vamos a usar el useEffect(): siempre los hooks van al principio del componente
+  //Antes de esto tendremos que coger del store los datos
+  const isLoggedIn = userData.isAutenticated;
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+     navigate('/')
+    }
+  }, [isLoggedIn, navigate])
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
@@ -28,33 +51,37 @@ function Menu() {
   const DrawerList = (
     <Box sx={{ maxwidth: 250 }} role="presentation" onClick={toggleDrawer(false)}>
       <List>
-        <Link to={'/home'} style={{textDecoration:'none', color:'black'}}>
+        
           {/* Inicio */}
-          <ListItem disablePadding>
-            <ListItemButton>
+          <Link to='/home' style={{textDecoration:'none', color:'black'}}>
+            <ListItem disablePadding>
+              <ListItemButton>
 
-              <ListItemIcon>
-                <HomeIcon />
-              </ListItemIcon>
+                <ListItemIcon>
+                  <HomeIcon />
+                </ListItemIcon>
 
-              {/* Ponemos el texto de inicio en negrita y en blanco (obtenido del color primario de nuestro tema personalizado) */}
-              <ListItemText primary="Inicio" sx={{ fontWeight: 'bold', color: 'primary.dark' }}/>
+                {/* Ponemos el texto de inicio en negrita y en blanco (obtenido del color primario de nuestro tema personalizado) */}
+                <ListItemText primary="Inicio" sx={{ fontWeight: 'bold', color: 'primary.dark' }}/>
 
-            </ListItemButton>
-          </ListItem>
+              </ListItemButton>
+            </ListItem>
+          </Link>
 
           {/* Informes */}
-          <ListItem disablePadding>
-            <ListItemButton>
+          <Link to='/reports' style={{textDecoration:'none', color:'black'}}>
+            <ListItem disablePadding>
+              <ListItemButton>
 
-              <ListItemIcon>
-                <ArticleIcon />
-              </ListItemIcon>
-              
-              <ListItemText primary="Informes" sx={{ fontWeight: 'bold', color: 'primary.dark' }}/>
+                <ListItemIcon>
+                  <ArticleIcon />
+                </ListItemIcon>
+                
+                <ListItemText primary="Informes" sx={{ fontWeight: 'bold', color: 'primary.dark' }}/>
 
-            </ListItemButton>
-          </ListItem>
+              </ListItemButton>
+            </ListItem>
+          </Link>
 
           {/* Ayuda */}
           <ListItem disablePadding>
@@ -81,34 +108,44 @@ function Menu() {
 
             </ListItemButton>
           </ListItem>
-        </Link>
       </List>
     </Box>
-    );   
+    );
+
+  
+  console.log(userData)
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+    <>
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static">
 
-        <Toolbar variant="dense">
-          <IconButton edge="start" color="primary" onClick={toggleDrawer(true)} aria-label="menu" sx={{ mr: 2 }}>
-            <MenuIcon/>
-          </IconButton>
-          <Typography variant="h6" color="inherit" component="div">
-            Photos
-          </Typography>
-        </Toolbar>
+          <Toolbar variant="dense">
+            <IconButton edge="start" color="primary" onClick={toggleDrawer(true)} aria-label="menu" sx={{ mr: 2 }}>
+              <MenuIcon/>
+            </IconButton>
 
-        <Drawer
-          anchor="left"
-          open={open}
-          onClose={toggleDrawer(false)}
-        >
-          {DrawerList}
-        </Drawer>
+            <Typography variant="h6" color="inherit" component="div" sx={{ flexGrow: 1, textAlign: 'center' }}>
+              {userData.userName}
+            </Typography>
 
-      </AppBar>
-    </Box>
+            {/* Así mostramos el ícono del administrador solamente si el rol del usuario es de administrador */}
+            {userData.userRol === "admin" && (
+                <AdminPanelSettingsIcon />
+            )}
+          </Toolbar>
+
+          <Drawer
+            anchor="left"
+            open={open}
+            onClose={toggleDrawer(false)}
+          >
+            {DrawerList}
+          </Drawer>
+
+        </AppBar>
+      </Box>
+    </>
   );
 }
 
