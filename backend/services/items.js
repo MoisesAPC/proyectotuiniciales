@@ -9,8 +9,8 @@ async function insertData (req, res) {
     const data = req.query
     const result = await db.query(
         `INSERT INTO coleccion (nombre, marca, tipo, precio)
-        VALUES
-        (${data.nombre}, ${data.marca}, ${data.tipo}, ${data.precio})`
+        VALUES (?, ?, ?, ?)`,
+        [data.nombre, data.marca, data.tipo, data.precio]
     )
     /* En la variable result se almacena lo que devueve la consulta. Si accedemos a effectedRow nos da el número de filas de la base de
     datos que ha sido modificado o añadido. Si ese número es mayor que cero es que ha habido inserción en la base de datos. */

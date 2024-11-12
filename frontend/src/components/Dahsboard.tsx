@@ -7,8 +7,16 @@ import Divider from '@mui/material/Divider';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Alert } from '@mui/material';
+//Para usar el useEffect debemos importarlo
+import { useEffect } from 'react';
 
 function Dashboard() {
+
+    // Con el useEffect, podemos hacer que al cargarse la página, se actualice la tabla
+    // con los datos provenientes de la base de datos
+    useEffect(() => {
+      obtenerDatosEnTablaColeccion();
+    }, []);
 
   const [alertInfo, setAlertInfo] = useState({ show: false, message: '', severity: 'success' });
 
@@ -71,26 +79,69 @@ function Dashboard() {
     limpiarContenidos();
   };
 
+  const handleDeleteItem = (id: number) => {
+    borrarDatosEnTablaColeccion(id);
+
+    limpiarContenidos();
+  };
+
   // Limpia los contenidos de las textboxes, las encuestas, etc
   const limpiarContenidos = () => {
     setData({nombre: '', marca: '', tipo: '', precio: '0.00'});
     setFormValido(false);
   };
 
-  // Función que hace el fetch al backend y obtiene los datos de la tabla desde la base de datos
+  /* FUNCIONES Y VARIABLES DE ACCESO A BASE DE DATOS */
+
+  // Función que hace el fetch al backend y obtiene los datos de la tabla
+  async function obtenerDatosEnTablaColeccion () {
+    fetch(`http://localhost:3030/getItems`)
+    .then(response => response.json())
+    .then (response => {
+
+      console.log('Lo que nos llega de la base de datos (SELECT tabla coleccion): ')
+      console.log(response.data)
+      
+      setTableData(response.data)
+    })
+  }
+
+  // Función que hace el fetch al backend e inserta los datos de la tabla
   async function insertarDatosEnTablaColeccion () {
     fetch(`http://localhost:3030/addItem?nombre=${data.nombre}&marca=${data.marca}&tipo=${data.tipo}&precio=${data.precio}`)
     .then(response => response.json())
     .then (response => {
 
-      // "data" es lo que nos llega desde la base de datos (el nombre, marca, tipo y precio, cuando le hicimos el SELECT)
-      console.log('Lo que nos llega de la base de datos (TABLA coleccion): ')
-      console.log(response.data)
-      if (response.data.length > 0) {
+      console.log('Lo que nos llega de la base de datos (INSERCIÓN tabla coleccion): ')
+      console.log(response)
+
+      obtenerDatosEnTablaColeccion()
+
+      if (response > 0) {
         setAlertInfo({ show: true, message: 'Datos guardados con éxito', severity: 'success' });
       }
       else {
         setAlertInfo({ show: true, message: 'ERROR: No se pudieron insertar los datos', severity: 'error' });
+      }
+    })
+  }
+
+  // Función que hace el fetch al backend y borra una fila de la tabla
+  async function borrarDatosEnTablaColeccion (id: number) {
+    fetch(`http://localhost:3030/deleteItem?id=${id}`)
+    .then(response => response.json())
+    .then (response => {
+
+      console.log('Lo que nos llega de la base de datos (DELETE tabla coleccion): ')
+      console.log(response)
+
+      obtenerDatosEnTablaColeccion()
+
+      if (response > 0) {
+        setAlertInfo({ show: true, message: 'Datos borrados con éxito', severity: 'success' });
+      }
+      else {
+        setAlertInfo({ show: true, message: 'ERROR: No se pudieron borrar los datos', severity: 'error' });
       }
     })
   }
@@ -121,10 +172,6 @@ function Dashboard() {
     const [item, setItem] = useState(itemInitialState)
 
     const [tableData, setTableData] = useState([])
-
-    const handleDeleteItem = (e: itemtype) =>{
-      
-    };
 
     return (
         <Box
@@ -202,36 +249,40 @@ function Dashboard() {
 
             {/* Tabla */}
             {/* Cabecera */}
-            <TableHead>
-              <TableRow sx={{ backgroundColor: 'blue' }}>
-                <TableCell sx={{ color: 'primary', fontWeight: 'bold' }}>Nombre</TableCell>
-                <TableCell sx={{ color: 'primary', fontWeight: 'bold' }}>Marca</TableCell>
-                <TableCell sx={{ color: 'primary', fontWeight: 'bold' }}>Tipo</TableCell>
-                <TableCell sx={{ color: 'primary', fontWeight: 'bold' }}>Precio</TableCell>
-              </TableRow>
-            </TableHead>
+            <TableContainer>
+              <Table aria-label='Tabla colección'>
+                <TableHead>
+                  <TableRow sx={{ backgroundColor: 'blue' }}>
+                    <TableCell sx={{ color: 'primary', fontWeight: 'bold' }}>Nombre</TableCell>
+                    <TableCell sx={{ color: 'primary', fontWeight: 'bold' }}>Marca</TableCell>
+                    <TableCell sx={{ color: 'primary', fontWeight: 'bold' }}>Tipo</TableCell>
+                    <TableCell sx={{ color: 'primary', fontWeight: 'bold' }}>Precio</TableCell>
+                  </TableRow>
+                </TableHead>
 
-            {/* Body */}
-            <TableBody>
-              {tableData.map((row: itemtype) => (
-                <TableRow key={row.id}>
-                  <TableCell>
-                    <Button onClick={() => handleDeleteItem(row)}>
-                      <DeleteForeverIcon />
-                    </Button>
-                  </TableCell>
+                {/* Body */}
+                <TableBody>
+                  {tableData.map((row: itemtype) => (
+                    <TableRow key={row.id}>
+                      <TableCell>
+                        <Button onClick={() => handleDeleteItem(row.id)}>
+                          <DeleteForeverIcon />
+                        </Button>
+                      </TableCell>
 
-                  <TableCell>{row.nombre}</TableCell>
+                      <TableCell>{row.nombre}</TableCell>
 
-                  <TableCell>{row.marca}</TableCell>
+                      <TableCell>{row.marca}</TableCell>
 
-                  <TableCell>{row.tipo}</TableCell>
+                      <TableCell>{row.tipo}</TableCell>
 
-                  <TableCell>{row.precio}</TableCell>
+                      <TableCell>{row.precio} €</TableCell>
 
-                </TableRow>
-              ))}
-            </TableBody>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
 
           </Grid>
         </Box>
