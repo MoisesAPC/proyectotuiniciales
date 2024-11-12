@@ -4,6 +4,8 @@ import Grid from '@mui/material/Grid2';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Divider from '@mui/material/Divider';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton } from '@mui/material';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 function Dashboard() {
 
@@ -94,6 +96,12 @@ function Dashboard() {
     // Cuando declaremos el useState del item en nuestro código:
     const [item, setItem] = useState(itemInitialState)
 
+    const [tableData, setTableData] = useState([])
+
+    const handleDeleteItem = (e: itemtype) =>{
+      
+    };
+
     return (
         <Box
           component='form'
@@ -160,6 +168,21 @@ function Dashboard() {
             <Grid size={12}>
               <Divider />
             </Grid>
+
+            {/* Tabla */}
+            <TableBody>
+              {tableData.map((row: itemtype) => (
+                <TableRow key={row.id}>
+                  <TableCell>
+                    <Button onClick={() => handleDeleteItem(row)}>
+                      <DeleteForeverIcon />
+                    </Button>
+                  </TableCell>
+                  <TableCell>{row.nombre}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+
           </Grid>
         </Box>
     );
