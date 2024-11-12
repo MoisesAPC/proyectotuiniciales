@@ -170,6 +170,17 @@ function Dashboard() {
             </Grid>
 
             {/* Tabla */}
+            {/* Cabecera */}
+            <TableHead>
+              <TableRow sx={{ backgroundColor: 'blue' }}>
+                <TableCell sx={{ color: 'primary', fontWeight: 'bold' }}>Nombre</TableCell>
+                <TableCell sx={{ color: 'primary', fontWeight: 'bold' }}>Marca</TableCell>
+                <TableCell sx={{ color: 'primary', fontWeight: 'bold' }}>Tipo</TableCell>
+                <TableCell sx={{ color: 'primary', fontWeight: 'bold' }}>Precio</TableCell>
+              </TableRow>
+            </TableHead>
+
+            {/* Body */}
             <TableBody>
               {tableData.map((row: itemtype) => (
                 <TableRow key={row.id}>
@@ -178,7 +189,15 @@ function Dashboard() {
                       <DeleteForeverIcon />
                     </Button>
                   </TableCell>
+
                   <TableCell>{row.nombre}</TableCell>
+
+                  <TableCell>{row.marca}</TableCell>
+
+                  <TableCell>{row.tipo}</TableCell>
+
+                  <TableCell>{row.precio}</TableCell>
+
                 </TableRow>
               ))}
             </TableBody>
