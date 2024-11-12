@@ -24,9 +24,14 @@ import { RootState} from '../store/index'
 //Para usar el useEffect debemos importarlo
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+// Importamos el useDispatch del react-redux
+import { useDispatch} from 'react-redux'
+// Importamos las acciones que están en el fichero authSlice.ts
+import { authActions } from '../store/authSlice';
 
 function Menu() {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   
   const [open, setOpen] = React.useState(false);
 
@@ -45,6 +50,14 @@ function Menu() {
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
+  };
+
+  const handleSalir = (e: any) => {
+    // Para que no mande el formulario, sino que haga lo que yo le diga.
+    e.preventDefault();
+
+    dispatch(authActions.logout())
+    navigate('/')
   };
 
   // Menú hamburguesa
@@ -100,7 +113,7 @@ function Menu() {
           <ListItem disablePadding>
             <ListItemButton>
 
-              <ListItemIcon>
+              <ListItemIcon onClick={handleSalir}>
                 <ExitToAppIcon />
               </ListItemIcon>
               
