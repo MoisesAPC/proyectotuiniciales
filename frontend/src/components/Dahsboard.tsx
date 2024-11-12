@@ -6,8 +6,13 @@ import TextField from '@mui/material/TextField';
 import Divider from '@mui/material/Divider';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { Alert } from '@mui/material';
 
 function Dashboard() {
+
+  const [alertInfo, setAlertInfo] = useState({ show: false, message: '', severity: 'success' });
+
+  /* FUNCIONES Y VARIABLES DEL FORMULARIO */
 
   // Datos del formulario {Nombre, Marca, Tipo}
   const [data, setData] = useState({nombre:'', marca:'', tipo:'', precio:'0.00'})
@@ -61,9 +66,7 @@ function Dashboard() {
     //Para que no mande el formulario, sino que haga lo que yo le diga
     e.preventDefault();
 
-    console.log({
-      ...data
-    });
+    insertarDatosEnTablaColeccion();
 
     limpiarContenidos();
   };
@@ -73,6 +76,27 @@ function Dashboard() {
     setData({nombre: '', marca: '', tipo: '', precio: '0.00'});
     setFormValido(false);
   };
+
+  // Función que hace el fetch al backend y obtiene los datos de la tabla desde la base de datos
+  async function insertarDatosEnTablaColeccion () {
+    fetch(`http://localhost:3030/addItem?nombre=${data.nombre}&marca=${data.marca}&tipo=${data.tipo}&precio=${data.precio}`)
+    .then(response => response.json())
+    .then (response => {
+
+      // "data" es lo que nos llega desde la base de datos (el nombre, marca, tipo y precio, cuando le hicimos el SELECT)
+      console.log('Lo que nos llega de la base de datos (TABLA coleccion): ')
+      console.log(response.data)
+      if (response.data.length > 0) {
+        setAlertInfo({ show: true, message: 'Datos guardados con éxito', severity: 'success' });
+      }
+      else {
+        setAlertInfo({ show: true, message: 'ERROR: No se pudieron insertar los datos', severity: 'error' });
+      }
+    })
+  }
+
+
+  /* FUNCIONES Y VARIABLES ASOCIADOS A LA TABLA */
 
 
     // Creamos el tipo itemtype. Este tipo será un objeto con un id opcional de tipo number
@@ -163,6 +187,13 @@ function Dashboard() {
                 + INSERTAR DATOS
               </Button>
             </Grid>
+
+            {/* SOLAMENTE ejecutaremos el componente "Alert" si la variable "alertInfo.show" está "true" */}
+            {alertInfo.show && (
+              <Alert severity={alertInfo.severity} sx={{ mt: 2 }}>
+                {alertInfo.message}
+              </Alert>
+            )}
 
             {/* Línea divisora */}
             <Grid size={12}>
