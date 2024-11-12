@@ -1,4 +1,4 @@
-import Dashboard from '../components/Dahsboard'
+import Dashboard from '../components/Dashboard'
 import Menu from '../components/Menu'
 
 function Home() {

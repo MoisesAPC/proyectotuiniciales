@@ -4,7 +4,7 @@ import Grid from '@mui/material/Grid2';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Divider from '@mui/material/Divider';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Alert } from '@mui/material';
 //Para usar el useEffect debemos importarlo
@@ -23,7 +23,6 @@ function Dashboard() {
   /* FUNCIONES Y VARIABLES DEL FORMULARIO */
 
   // Datos del formulario {Nombre, Marca, Tipo}
-  const [data, setData] = useState({nombre:'', marca:'', tipo:'', precio:'0.00'})
   const [formValido, setFormValido] = useState(false);  // Para comprobar que todos los campos required hayan sido rellenados previamente
 
   // Si todos los campos con "required" han sido rellenados
@@ -37,35 +36,35 @@ function Dashboard() {
   };
 
   const handleChangeNombre = (e: { target: { value: string; }; }) =>{
-    setData({
-      ...data,
+    setItem({
+      ...item,
       nombre: e.target.value
     });
 
-    validarFormulario(e.target.value, data.marca, data.tipo);
+    validarFormulario(e.target.value, item.marca, item.tipo);
   };
 
   const handleChangeMarca = (e: { target: { value: string; }; }) =>{
-    setData({
-      ...data,
+    setItem({
+      ...item,
       marca: e.target.value
     });
 
-    validarFormulario(data.nombre, e.target.value, data.tipo);
+    validarFormulario(item.nombre, e.target.value, item.tipo);
   };
 
   const handleChangeTipo = (e: { target: { value: string; }; }) =>{
-    setData({
-      ...data,
+    setItem({
+      ...item,
       tipo: e.target.value
     });
 
-    validarFormulario(data.nombre, data.marca, e.target.value);
+    validarFormulario(item.nombre, item.marca, e.target.value);
   };
 
   const handleChangePrecio = (e: { target: { value: any; }; }) =>{
-    setData({
-      ...data,
+    setItem({
+      ...item,
       precio: e.target.value
     });
   };
@@ -87,7 +86,7 @@ function Dashboard() {
 
   // Limpia los contenidos de las textboxes, las encuestas, etc
   const limpiarContenidos = () => {
-    setData({nombre: '', marca: '', tipo: '', precio: '0.00'});
+    setItem({nombre: '', marca: '', tipo: '', precio: 0});
     setFormValido(false);
   };
 
@@ -108,7 +107,7 @@ function Dashboard() {
 
   // Función que hace el fetch al backend e inserta los datos de la tabla
   async function insertarDatosEnTablaColeccion () {
-    fetch(`http://localhost:3030/addItem?nombre=${data.nombre}&marca=${data.marca}&tipo=${data.tipo}&precio=${data.precio}`)
+    fetch(`http://localhost:3030/addItem?nombre=${item.nombre}&marca=${item.marca}&tipo=${item.tipo}&precio=${item.precio}`)
     .then(response => response.json())
     .then (response => {
 
@@ -185,7 +184,7 @@ function Dashboard() {
                 label='Nombre'
                 variant='outlined'
                 fullWidth
-                value={data.nombre}
+                value={item.nombre}
                 onChange={handleChangeNombre}
               />
             </Grid>
@@ -197,7 +196,7 @@ function Dashboard() {
                 label='Marca'
                 variant='outlined'
                 fullWidth
-                value={data.marca}
+                value={item.marca}
                 onChange={handleChangeMarca}
               />
             </Grid>
@@ -209,7 +208,7 @@ function Dashboard() {
                 label='Tipo'
                 variant='outlined'
                 fullWidth
-                value={data.tipo}
+                value={item.tipo}
                 onChange={handleChangeTipo}
               />
             </Grid>
@@ -222,7 +221,7 @@ function Dashboard() {
                 label='Precio'
                 variant='outlined'
                 fullWidth
-                value={data.precio}
+                value={item.precio}
                 inputProps={{ min: 0 }} // Así hacemos que el campo del precio no acepte números negativos
                 onChange={handleChangePrecio}
               />
