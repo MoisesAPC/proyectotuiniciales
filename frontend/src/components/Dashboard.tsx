@@ -258,6 +258,7 @@ function Dashboard() {
               <Table aria-label='Tabla colección'>
                 <TableHead>
                   <TableRow sx={{ backgroundColor: 'blue' }}>
+                  <TableCell sx={{ color: 'primary', fontWeight: 'bold' }}>Eliminar</TableCell>
                     <TableCell sx={{ color: 'primary', fontWeight: 'bold' }}>Nombre</TableCell>
                     <TableCell sx={{ color: 'primary', fontWeight: 'bold' }}>Marca</TableCell>
                     <TableCell sx={{ color: 'primary', fontWeight: 'bold' }}>Tipo</TableCell>
