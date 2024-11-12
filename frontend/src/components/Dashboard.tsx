@@ -22,11 +22,11 @@ function Dashboard() {
 
   /* FUNCIONES Y VARIABLES DEL FORMULARIO */
 
-  // Datos del formulario {Nombre, Marca, Tipo}
-  const [formValido, setFormValido] = useState(false);  // Para comprobar que todos los campos required hayan sido rellenados previamente
+  // Para comprobar que todos los campos required hayan sido rellenados previamente
+  const [formValido, setFormValido] = useState(false);
 
   // Si todos los campos con "required" han sido rellenados
-  // "esValido" pasará a ser a true, activando el botón de Enviar
+  // "esValido" pasará a ser a true, activando el botón de Insertar Datos
   const validarFormulario = (nombre: string, marca: string, tipo: string) => {
     const esValido =
       nombre.trim() !== '' &&
@@ -114,8 +114,11 @@ function Dashboard() {
       console.log('Lo que nos llega de la base de datos (INSERCIÓN tabla coleccion): ')
       console.log(response)
 
+      // Actualizamos la tabla con los datos nuevos
       obtenerDatosEnTablaColeccion()
 
+      // Si "response > 0", significa que se han insertado datos correctamente, donde
+      // "response" es el número de filas afectadas (véase "return result.affectedRows" en items.js)
       if (response > 0) {
         setAlertInfo({ show: true, message: 'Datos guardados con éxito', severity: 'success' });
       }
@@ -134,8 +137,11 @@ function Dashboard() {
       console.log('Lo que nos llega de la base de datos (DELETE tabla coleccion): ')
       console.log(response)
 
+      // Actualizamos la tabla con los datos nuevos
       obtenerDatosEnTablaColeccion()
 
+      // Si "response > 0", significa que se han insertado datos correctamente, donde
+      // "response" es el número de filas afectadas (véase "return result.affectedRows" en items.js)
       if (response > 0) {
         setAlertInfo({ show: true, message: 'Datos borrados con éxito', severity: 'success' });
       }
@@ -263,6 +269,8 @@ function Dashboard() {
                 <TableBody>
                   {tableData.map((row: itemtype) => (
                     <TableRow key={row.id}>
+
+                      {/* Ícono de basura (borrar item) */}
                       <TableCell>
                         <Button onClick={() => handleDeleteItem(row.id)}>
                           <DeleteForeverIcon />
