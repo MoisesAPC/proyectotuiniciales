@@ -16,6 +16,7 @@ import ArticleIcon from '@mui/icons-material/Article';
 import HelpIcon from '@mui/icons-material/Help';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import AdbIcon from '@mui/icons-material/Adb';
 import Drawer from '@mui/material/Drawer';
 // Importamos el useSelector del react-redux
 import { useSelector } from 'react-redux'
@@ -81,20 +82,22 @@ function Menu() {
             </ListItem>
           </Link>
 
-          {/* Informes */}
-          <Link to='/reports' style={{textDecoration:'none', color:'black'}}>
-            <ListItem disablePadding>
-              <ListItemButton>
+          {/* Informes (solo se muestra cuando el rol del usuario es "admin") */}
+          {userData.userRol === "admin" && (
+            <Link to='/reports' style={{textDecoration:'none', color:'black'}}>
+              <ListItem disablePadding>
+                <ListItemButton>
 
-                <ListItemIcon>
-                  <ArticleIcon />
-                </ListItemIcon>
-                
-                <ListItemText primary="Informes" sx={{ fontWeight: 'bold', color: 'primary.dark' }}/>
+                  <ListItemIcon>
+                    <ArticleIcon />
+                  </ListItemIcon>
+                  
+                  <ListItemText primary="Informes" sx={{ fontWeight: 'bold', color: 'primary.dark' }}/>
 
-              </ListItemButton>
-            </ListItem>
-          </Link>
+                </ListItemButton>
+              </ListItem>
+            </Link>
+          )}
 
           {/* Ayuda */}
           <ListItem disablePadding>
@@ -143,9 +146,12 @@ function Menu() {
             </Typography>
 
             {/* Así mostramos el ícono del administrador solamente si el rol del usuario es de administrador */}
-            {userData.userRol === "admin" && (
+            {/* Para los "user", mostramos el icono AdbIcon */}
+            {userData.userRol === "admin" ? (
                 <AdminPanelSettingsIcon />
-            )}
+            ) : userData.userRol === "user" ? (
+                <AdbIcon />
+            ) : null}
           </Toolbar>
 
           <Drawer

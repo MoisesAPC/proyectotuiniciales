@@ -9,8 +9,15 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Alert } from '@mui/material';
 //Para usar el useEffect debemos importarlo
 import { useEffect } from 'react';
+// Importamos el useSelector del react-redux
+import { useSelector } from 'react-redux'
+// Importamos lo que necesitamos para el tipo del selector()
+import { RootState} from '../store/index'
 
 function Dashboard() {
+
+  // Almacenamos en la variable userData lo que obtenemos del store usando el hook useSelector
+  const userData = useSelector((state: RootState) => state.authenticator)
 
     // Con el useEffect, podemos hacer que al cargarse la página, se actualice la tabla
     // con los datos provenientes de la base de datos
@@ -271,11 +278,13 @@ function Dashboard() {
                   {tableData.map((row: itemtype) => (
                     <TableRow key={row.id}>
 
-                      {/* Ícono de basura (borrar item) */}
+                      {/* Ícono de basura (borrar item) (solo se muestra cuando el rol del usuario es "admin") */}
                       <TableCell>
+                      {userData.userRol === "admin" && (
                         <Button onClick={() => handleDeleteItem(row.id)}>
                           <DeleteForeverIcon />
                         </Button>
+                      )}
                       </TableCell>
 
                       <TableCell>{row.nombre}</TableCell>
