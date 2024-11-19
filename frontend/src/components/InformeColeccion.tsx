@@ -30,7 +30,7 @@ function InformeColeccion({ tableData }: { tableData: any[] }) {
     { title: "Nombre", field: "nombre", filtering: false},
     { title: "Marca", field: "marca" },
     { title: "Tipo", field: "tipo" },
-    { title: "Precio", field: "precio", type: "numeric" }
+    { title: "Precio", field: "precio", type: "numeric", filtering: false }
   ];
 
 // --> definición de los datos de la tabla
@@ -67,8 +67,8 @@ return (
             color: 'white'
         },
 
-        // No podremos arrastrar y soltar las columnas del menú
-        draggable: false,
+        // Podremos arrastrar y soltar las columnas del menú
+        draggable: true,
 
         // Elegimos las columnas a mostrar
         columnsButton: true,
