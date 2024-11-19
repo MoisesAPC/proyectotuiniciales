@@ -22,8 +22,10 @@ function InformeColeccion() {
   //El field contendrá el nombre que le damos a ese campo en la tabla
   //Por ejemplo: tendremos una columna con el title Nombre cuyo campo se llamará firstName
   //Podemos indicar también el type y decir que es numérico, como en el caso del año nacimiento
+
+  // Con la opción de "filtering: false", podremos desactivar el filtrado para la columna especificada
   const col: Array<Column<IPerson>> = [
-    { title: "Nombre", field: "firstName"},
+    { title: "Nombre", field: "firstName", filtering: false},
     { title: "Apellido", field: "lastName" },
     { title: "Año nacimiento", field: "birthYear", type: "numeric" }
   ];
@@ -46,6 +48,17 @@ return (
     columns={col}
     data={tableData}
     title="Colección de Informes"
+
+    // Mostramos la suma de los los valores de cada campo de la fecha de nacimiento
+    renderSummaryRow={({ column, data }) =>
+        column.field === "birthYear"
+          ? {
+              value: data.reduce((sumatorio, row) => sumatorio + row.birthYear, 0),
+              style: { background: "red" },
+            }
+          : undefined
+      }
+
     options={{
         // Le cambiamos el color de la cabecera
         headerStyle: {
@@ -55,6 +68,12 @@ return (
 
         // No podremos arrastrar y soltar las columnas del menú
         draggable: false,
+
+        // Elegimos las columnas a mostrar
+        columnsButton: true,
+
+        // Activamos el filtrado por columnas
+        filtering: true,
 
         // Opciones del menú de "Exportar"
         exportMenu: [
