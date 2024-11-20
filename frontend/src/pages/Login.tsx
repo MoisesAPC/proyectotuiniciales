@@ -1,4 +1,4 @@
-import { Container, Typography, TextField, Button, Stack, Box, Alert } from '@mui/material';
+import { Container, Typography, TextField, Button, Stack, Box, Alert, Tooltip } from '@mui/material';
 import { useState } from 'react';
 import LockIcon from '@mui/icons-material/Lock';
 import { useNavigate } from 'react-router-dom'
@@ -100,14 +100,16 @@ function Login() {
             onChange={(e) => setData({ ...data, password: e.target.value })}
           />
           
-          <Button
-            type="submit"
-            variant="contained"
-            color="secondary"
-            size="large"
-          >
-            Acceder
-          </Button>
+          <Tooltip title="Inicia sesión" placement="bottom" arrow>
+            <Button
+              type="submit"
+              variant="contained"
+              color="secondary"
+              size="large"
+            >
+              Acceder
+            </Button>
+          </Tooltip>
         </Stack>
       </Box>
 

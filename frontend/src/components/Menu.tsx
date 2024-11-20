@@ -29,6 +29,7 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch} from 'react-redux'
 // Importamos las acciones que están en el fichero authSlice.ts
 import { authActions } from '../store/authSlice';
+import { Tooltip } from '@mui/material';
 
 function Menu() {
   const navigate = useNavigate()
@@ -67,63 +68,73 @@ function Menu() {
       <List>
         
           {/* Inicio */}
-          <Link to='/home' style={{textDecoration:'none', color:'black'}}>
-            <ListItem disablePadding>
-              <ListItemButton>
-
-                <ListItemIcon>
-                  <HomeIcon />
-                </ListItemIcon>
-
-                {/* Ponemos el texto de inicio en negrita y en blanco (obtenido del color primario de nuestro tema personalizado) */}
-                <ListItemText primary="Inicio" sx={{ fontWeight: 'bold', color: 'primary.dark' }}/>
-
-              </ListItemButton>
-            </ListItem>
-          </Link>
-
-          {/* Informes (solo se muestra cuando el rol del usuario es "admin") */}
-          {userData.userRol === "admin" && (
-            <Link to='/reports' style={{textDecoration:'none', color:'black'}}>
+          <Tooltip title="Ir a la página Home" placement="right" arrow>
+            <Link to='/home' style={{textDecoration:'none', color:'black'}}>
               <ListItem disablePadding>
                 <ListItemButton>
 
                   <ListItemIcon>
-                    <ArticleIcon />
+                    <HomeIcon />
                   </ListItemIcon>
-                  
-                  <ListItemText primary="Informes" sx={{ fontWeight: 'bold', color: 'primary.dark' }}/>
+
+                  {/* Ponemos el texto de inicio en negrita y en blanco (obtenido del color primario de nuestro tema personalizado) */}
+                  <ListItemText primary="Inicio" sx={{ fontWeight: 'bold', color: 'primary.dark' }}/>
 
                 </ListItemButton>
               </ListItem>
             </Link>
+          </Tooltip>
+
+          {/* Informes (solo se muestra cuando el rol del usuario es "admin") */}
+          {userData.userRol === "admin" && (
+            <Tooltip title="Ir a la página de informes" placement="right" arrow>
+              <Link to='/reports' style={{textDecoration:'none', color:'black'}}>
+                <ListItem disablePadding>
+                  <ListItemButton>
+
+                    <ListItemIcon>
+                      <ArticleIcon />
+                    </ListItemIcon>
+                    
+                    <ListItemText primary="Informes" sx={{ fontWeight: 'bold', color: 'primary.dark' }}/>
+
+                  </ListItemButton>
+                </ListItem>
+              </Link>
+            </Tooltip>
           )}
 
           {/* Ayuda */}
-          <ListItem disablePadding>
-            <ListItemButton>
+          <Tooltip title="Abrir manual de usuario" placement="right" arrow>
+            <Link to={'/public/Pestano_Castro_Moisés_Antonio_UT4A1.pdf'} target='_blank' style={{textDecoration:'none', color:'black'}}>
+              <ListItem disablePadding>
+                <ListItemButton>
 
-              <ListItemIcon>
-                <HelpIcon />
-              </ListItemIcon>
-              
-              <ListItemText primary="Ayuda" sx={{ fontWeight: 'bold', color: 'primary.dark' }}/>
+                  <ListItemIcon>
+                    <HelpIcon />
+                  </ListItemIcon>
+                  
+                  <ListItemText primary="Ayuda" sx={{ fontWeight: 'bold', color: 'primary.dark' }}/>
 
-            </ListItemButton>
-          </ListItem>
+                </ListItemButton>
+              </ListItem>
+            </Link>
+          </Tooltip>
 
           {/* Salir */}
-          <ListItem disablePadding>
-            <ListItemButton>
+          <Tooltip title="Cerrar sesión" placement="right" arrow>
+            <ListItem disablePadding>
+              <ListItemButton>
 
-              <ListItemIcon onClick={handleSalir}>
-                <ExitToAppIcon />
-              </ListItemIcon>
-              
-              <ListItemText primary="Salir" sx={{ fontWeight: 'bold', color: 'primary.dark' }}/>
+                <ListItemIcon onClick={handleSalir}>
+                  <ExitToAppIcon />
+                </ListItemIcon>
+                
+                <ListItemText primary="Salir" sx={{ fontWeight: 'bold', color: 'primary.dark' }}/>
 
-            </ListItemButton>
-          </ListItem>
+              </ListItemButton>
+            </ListItem>
+          </Tooltip>
       </List>
     </Box>
     );
@@ -137,9 +148,11 @@ function Menu() {
         <AppBar position="static">
 
           <Toolbar variant="dense">
-            <IconButton edge="start" color="primary" onClick={toggleDrawer(true)} aria-label="menu" sx={{ mr: 2 }}>
-              <MenuIcon/>
-            </IconButton>
+            <Tooltip title="Abrir menú hamburguesa" placement="right" arrow>
+              <IconButton edge="start" color="primary" onClick={toggleDrawer(true)} aria-label="menu" sx={{ mr: 2 }}>
+                <MenuIcon/>
+              </IconButton>
+            </Tooltip>
 
             <Typography variant="h6" color="inherit" component="div" sx={{ flexGrow: 1, textAlign: 'center' }}>
               {userData.userName}

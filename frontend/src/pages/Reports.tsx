@@ -1,4 +1,4 @@
-import { Stack, Button } from '@mui/material';
+import { Stack, Button, Tooltip } from '@mui/material';
 import { useState } from 'react';
 
 import Menu from '../components/Menu'
@@ -33,9 +33,11 @@ function Reports() {
       <Stack spacing={5}>
         <Menu />
 
-        <Button variant='contained' onClick={handleInformeColeccion} fullWidth>
-          INFORME COLLECION
-        </Button>
+        <Tooltip title="Generar informe" placement="top" arrow>
+          <Button variant='contained' onClick={handleInformeColeccion} fullWidth>
+            INFORME COLLECION
+          </Button>
+        </Tooltip>
 
         {botonInformeColeccionPulsado && (
           <InformeColeccion tableData={tableData} />
