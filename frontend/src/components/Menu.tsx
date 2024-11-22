@@ -124,9 +124,9 @@ function Menu() {
           {/* Salir */}
           <Tooltip title="Cerrar sesión" placement="right" arrow>
             <ListItem disablePadding>
-              <ListItemButton>
+              <ListItemButton onClick={handleSalir}>
 
-                <ListItemIcon onClick={handleSalir}>
+                <ListItemIcon>
                   <ExitToAppIcon />
                 </ListItemIcon>
                 

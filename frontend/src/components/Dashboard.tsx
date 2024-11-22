@@ -189,6 +189,13 @@ function Dashboard() {
         <Box
           component='form'
         >
+          {/* Con esto agrega un espaciado antes del formulario (un margen superior) */}
+          <Grid container>
+            <Grid item xs={12}>
+              <Box mt={7} />
+            </Grid>
+          </Grid>
+
           <Grid container spacing={2}>
             {/* Campo Nombre */}
             <Grid size={{ xs: 12, md: 10, lg: 5, xl: 6 }}>
