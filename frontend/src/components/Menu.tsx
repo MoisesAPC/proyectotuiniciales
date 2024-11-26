@@ -104,6 +104,25 @@ function Menu() {
             </Tooltip>
           )}
 
+          {/* Gestión de usuarios (solo se muestra cuando el rol del usuario es "admin") */}
+          {userData.userRol === "admin" && (
+            <Tooltip title="Gestionar usuarios" placement="right" arrow>
+              <Link to='/gestion_usuarios' style={{textDecoration:'none', color:'black'}}>
+                <ListItem disablePadding>
+                  <ListItemButton>
+
+                    <ListItemIcon>
+                      <ArticleIcon />
+                    </ListItemIcon>
+                    
+                    <ListItemText primary="Gestión usuarios" sx={{ fontWeight: 'bold', color: 'primary.dark' }}/>
+
+                  </ListItemButton>
+                </ListItem>
+              </Link>
+            </Tooltip>
+          )}
+
           {/* Ayuda */}
           <Tooltip title="Abrir manual de usuario" placement="right" arrow>
             <Link to={'/public/Pestano_Castro_Moisés_Antonio_UT4A1.pdf'} target='_blank' style={{textDecoration:'none', color:'black'}}>

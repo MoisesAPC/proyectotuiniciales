@@ -5,6 +5,8 @@ const cors = require('cors')
 const login = require('./services/login')
 //importo el fichero items.js que está en la carpeta services
 const items = require('./services/items')
+//importo el fichero users.js que está en la carpeta services
+const users = require('./services/users')
 
 //Definimos el puerto por que va a escuchar nuestra API las peticiones
 const port  = 3030
@@ -66,12 +68,36 @@ app.get('/getItems', async function(req, res, next) {
 
 // Creación del endpoint: deleteItem
 // Llama al fichero items.js usando el método deleteData pasándole
-// la id de la tabla coleccion (la cual ya se encuentra contenida en el argumento "req")
+// la id de la tabla usuarios (la cual ya se encuentra contenida en el argumento "req")
 app.get('/deleteItem', async function(req, res, next) {
     try {
     res.json(await items.deleteData(req, res))
     } catch (err) {
     console.error(`Error while deleting items `, err.message);
+    next(err);
+    }
+})
+
+
+// Creación del endpoint: addUsuario
+// Llama al fichero users.js usando el método insertUser pasándole
+// los datos de la tabla usuarios (los cuales ya se encuentran contenidos en el argumento "req")
+app.get('/addUsuario', async function(req, res, next) {
+    try {
+    res.json(await users.insertUser(req, res))
+    } catch (err) {
+    console.error(`Error while inserting users `, err.message);
+    next(err);
+    }
+})
+
+// Creación del endpoint: getUsuarios
+// Llama al fichero users.js usando el método getUser
+app.get('/getUsuarios', async function(req, res, next) {
+    try {
+    res.json(await users.getUser(req, res))
+    } catch (err) {
+    console.error(`Error while getting users `, err.message);
     next(err);
     }
 })
