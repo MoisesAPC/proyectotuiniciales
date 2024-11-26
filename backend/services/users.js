@@ -8,9 +8,9 @@ async function insertUser (req, res) {
     // Para acceder a cada uno de los datos: data.login, ...
     const data = req.query
     const result = await db.query(
-        `INSERT INTO usuarios (login, password, rol)
+        `INSERT INTO usuarios (nombre, login, password, rol)
         VALUES (?, ?, ?, ?)`,
-        [data.login, data.password, data.rol]
+        [data.nombre, data.login, data.password, data.rol]
     )
     /* En la variable result se almacena lo que devueve la consulta. Si accedemos a effectedRow nos da el número de filas de la base de
     datos que ha sido modificado o añadido. Si ese número es mayor que cero es que ha habido inserción en la base de datos. */

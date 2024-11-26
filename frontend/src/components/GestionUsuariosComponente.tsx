@@ -33,39 +33,61 @@ function GestionUsuariosComponente() {
 
   // Si todos los campos con "required" han sido rellenados
   // "esValido" pasará a ser a true, activando el botón de Insertar Usuario
-  const validarFormulario = (login: string, password: string, rol: string) => {
+  const validarFormulario = (nombre: string, login: string, password: string, rol: string) => {
     const esValido =
+      nombre.trim() !== '' &&
       login.trim() !== '' &&
       password.trim() !== '' &&
       rol.trim() !== '';
     setFormValido(esValido);
   };
 
+  const handleChangeNombre = (e: { target: { value: string; }; }) =>{
+    // Quitamos los posibles espacios que se hayan añadido al campo
+    e.target.value.trim();
+
+    setUser({
+      ...user,
+      nombre: e.target.value
+    });
+
+    validarFormulario(e.target.value, user.login, user.password, user.rol);
+  };
+
   const handleChangeLogin = (e: { target: { value: string; }; }) =>{
+    // Quitamos los posibles espacios que se hayan añadido al campo
+    e.target.value.trim();
+
     setUser({
       ...user,
       login: e.target.value
     });
 
-    validarFormulario(e.target.value, user.password, user.rol);
+    validarFormulario(user.nombre, e.target.value, user.password, user.rol);
   };
 
   const handleChangePassword = (e: { target: { value: string; }; }) =>{
+    // Quitamos los posibles espacios que se hayan añadido al campo
+    e.target.value.trim();
+
     setUser({
       ...user,
       password: e.target.value
     });
 
-    validarFormulario(user.login, e.target.value, user.rol);
+    validarFormulario(user.nombre, user.login, e.target.value, user.rol);
   };
 
   const handleChangeRol = (e: { target: { value: string; }; }) =>{
+    // Quitamos los posibles espacios que se hayan añadido al campo
+    e.target.value.trim();
+    
     setUser({
       ...user,
       rol: e.target.value
     });
 
-    validarFormulario(user.login, user.password, e.target.value);
+    validarFormulario(user.nombre, user.login, user.password, e.target.value);
   };
 
   const handleInsertarUsuario = (e: { preventDefault: () => void; }) => {
@@ -79,7 +101,7 @@ function GestionUsuariosComponente() {
 
   // Limpia los contenidos de las textboxes, las encuestas, etc
   const limpiarContenidos = () => {
-    setUser({login: '', password: '', rol: ''});
+    setUser({nombre: '', login: '', password: '', rol: ''});
     setFormValido(false);
   };
 
@@ -100,7 +122,8 @@ function GestionUsuariosComponente() {
 
   // Función que hace el fetch al backend e inserta los datos de la tabla usuarios
   async function insertarDatosEnTablaUsuarios () {
-    fetch(`http://localhost:3030/addUsuario?login=${user.login}&password=${user.password}&rol=${user.rol}`)
+    console.log(`http://localhost:3030/addUsuario?nombre=${user.nombre}&login=${user.login}&password=${user.password}&rol=${user.rol}`)
+    fetch(`http://localhost:3030/addUsuario?nombre=${user.nombre}&login=${user.login}&password=${user.password}&rol=${user.rol}`)
     .then(response => response.json())
     .then (response => {
 
@@ -125,24 +148,26 @@ function GestionUsuariosComponente() {
   /* FUNCIONES Y VARIABLES ASOCIADOS A LA TABLA */
 
 
-    // Creamos el rol itemtype. Este rol será un objeto con un id opcional de rol number
-    // login, password y rol de rol string y el precio de rol number
-    interface itemtype {
+    // Creamos el rol usertype. Este rol será un objeto con un id opcional de rol number
+    // nombre, login, password y rol de rol string y el precio de rol number
+    interface usertype {
         id?: number
+        nombre: string
         login: string
         password: string
         rol: string
     }
 
     // Inicializo los valores del user. Aquí no pongo el id porque no lo necesito
-    const itemInitialState: itemtype = {
-        login: ' ',
-        password: ' ',
-        rol: ' '
+    const userInitialState: usertype = {
+        nombre: '',
+        login: '',
+        password: '',
+        rol: ''
     }
 
     // Cuando declaremos el useState del user en nuestro código:
-    const [user, setUser] = useState(itemInitialState)
+    const [user, setUser] = useState(userInitialState)
 
     const [tableData, setTableData] = useState([])
 
@@ -158,6 +183,18 @@ function GestionUsuariosComponente() {
           </Grid>
 
           <Grid container spacing={2}>
+            {/* Campo Nombre */}
+          <Grid size={{ xs: 12, md: 10, lg: 5, xl: 6 }}>
+              <TextField 
+                required
+                label='Nombre'
+                variant='outlined'
+                fullWidth
+                value={user.nombre}
+                onChange={handleChangeNombre}
+              />
+            </Grid>
+
             {/* Campo Login */}
             <Grid size={{ xs: 12, md: 10, lg: 5, xl: 6 }}>
               <TextField 
@@ -221,7 +258,7 @@ function GestionUsuariosComponente() {
               <Table aria-label='Tabla de usuarios'>
                 <TableHead>
                   <TableRow sx={{ backgroundColor: 'blue' }}>
-                  <TableCell sx={{ color: 'primary', fontWeight: 'bold' }}>Eliminar</TableCell>
+                    <TableCell sx={{ color: 'primary', fontWeight: 'bold' }}>Nombre</TableCell>
                     <TableCell sx={{ color: 'primary', fontWeight: 'bold' }}>Login</TableCell>
                     <TableCell sx={{ color: 'primary', fontWeight: 'bold' }}>Password</TableCell>
                     <TableCell sx={{ color: 'primary', fontWeight: 'bold' }}>Rol</TableCell>
@@ -230,8 +267,10 @@ function GestionUsuariosComponente() {
 
                 {/* Body */}
                 <TableBody>
-                  {tableData.map((row: itemtype) => (
+                  {tableData.map((row: usertype) => (
                     <TableRow key={row.id}>
+
+                      <TableCell>{row.nombre}</TableCell>
 
                       <TableCell>{row.login}</TableCell>
 
