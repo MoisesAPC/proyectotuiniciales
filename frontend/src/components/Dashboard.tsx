@@ -277,14 +277,14 @@ function Dashboard() {
             <TableContainer>
               <Table aria-label='Tabla colección'>
                 <TableHead>
-                  <TableRow sx={{ backgroundColor: theme.palette.error.main }}>
+                  <TableRow sx={{ backgroundColor: 'white' }}>
                     {userData.userRol === "admin" && (
-                      <TableCell sx={{ color: 'primary', fontWeight: 'bold' }}></TableCell>
+                      <TableCell sx={{ color: 'primary.light', fontWeight: 'bold' }}></TableCell>
                     )}
-                    <TableCell sx={{ color: 'primary', fontWeight: 'bold' }}>Nombre</TableCell>
-                    <TableCell sx={{ color: 'primary', fontWeight: 'bold' }}>Marca</TableCell>
-                    <TableCell sx={{ color: 'primary', fontWeight: 'bold' }}>Tipo</TableCell>
-                    <TableCell sx={{ color: 'primary', fontWeight: 'bold' }}>Precio</TableCell>
+                    <TableCell sx={{ color: 'primary.light', fontWeight: 'bold' }}>Nombre</TableCell>
+                    <TableCell sx={{ color: 'primary.light', fontWeight: 'bold' }}>Marca</TableCell>
+                    <TableCell sx={{ color: 'primary.light', fontWeight: 'bold' }}>Tipo</TableCell>
+                    <TableCell sx={{ color: 'primary.light', fontWeight: 'bold' }}>Precio</TableCell>
                   </TableRow>
                 </TableHead>
 

@@ -60,7 +60,7 @@ return (
         column.field === "precio"
           ? {
               value: data.reduce((sumatorio, row) => sumatorio + row.precio, 0),
-              style: { background: theme.palette.error.main },
+              style: { background: 'white', color: 'black' },
             }
           : undefined
       }
@@ -68,8 +68,8 @@ return (
     options={{
         // Le cambiamos el color de la cabecera
         headerStyle: {
-            backgroundColor: theme.palette.success.main,
-            color: theme.palette.primary.dark
+            backgroundColor: 'white',
+            color: 'black'
         },
 
         // Podremos arrastrar y soltar las columnas del menú
