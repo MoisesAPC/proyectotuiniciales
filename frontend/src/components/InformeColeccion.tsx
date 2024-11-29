@@ -2,6 +2,8 @@
 import MaterialTable, { Column } from "@material-table/core";
 //Importo la librería que nos permite exportar a CSV y PDF
 import { ExportCsv, ExportPdf } from "@material-table/exporters";
+// Importamos el useTheme para poder utilizar mi paleta de colores custom
+import { useTheme } from '@mui/material/styles';
 
 //Creo la interfaz para los tipos de los campos (field) de la tabla. 
 //La tabla tendrá los campos nombre: string, marca: string, tipo: string, precio: number
@@ -15,6 +17,9 @@ interface IProducto {
 // Le pasamos los props (los datos de la tabla, "tableData")
 // Le ponemos "any" como tipo de dato para poder pasarle cualquier dato como tabla
 function InformeColeccion({ tableData }: { tableData: any[] }) {
+  // Para poder utilizar nuestro tema custom
+  const theme = useTheme();
+
 //Creación de los datos de prueba: 
 // --> definición de las columnas de la tabla
   //Para cada elemento que queremos mostrar tendremos el title y el field
@@ -55,7 +60,7 @@ return (
         column.field === "precio"
           ? {
               value: data.reduce((sumatorio, row) => sumatorio + row.precio, 0),
-              style: { background: "red" },
+              style: { background: theme.palette.error.main },
             }
           : undefined
       }
@@ -63,8 +68,8 @@ return (
     options={{
         // Le cambiamos el color de la cabecera
         headerStyle: {
-            backgroundColor: 'green',
-            color: 'white'
+            backgroundColor: theme.palette.success.main,
+            color: theme.palette.primary.dark
         },
 
         // Podremos arrastrar y soltar las columnas del menú

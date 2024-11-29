@@ -13,8 +13,12 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux'
 // Importamos lo que necesitamos para el tipo del selector()
 import { RootState} from '../store/index'
+// Importamos el useTheme para poder utilizar mi paleta de colores custom
+import { useTheme } from '@mui/material/styles';
 
 function Dashboard() {
+  // Para poder utilizar nuestro tema custom
+  const theme = useTheme();
 
   // Almacenamos en la variable userData lo que obtenemos del store usando el hook useSelector
   const userData = useSelector((state: RootState) => state.authenticator)
@@ -273,7 +277,7 @@ function Dashboard() {
             <TableContainer>
               <Table aria-label='Tabla colección'>
                 <TableHead>
-                  <TableRow sx={{ backgroundColor: 'blue' }}>
+                  <TableRow sx={{ backgroundColor: theme.palette.error.main }}>
                     {userData.userRol === "admin" && (
                       <TableCell sx={{ color: 'primary', fontWeight: 'bold' }}></TableCell>
                     )}
