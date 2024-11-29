@@ -254,7 +254,7 @@ function Dashboard() {
             {/* Botón de insertar datos */}
             <Grid size={{ xs: 12, md: 10, lg: 5, xl: 6 }}>
               <Tooltip title="Inserta datos a la tabla Colecciones" placement="bottom" arrow>
-                <Button variant='contained' fullWidth onClick={handleInsertarDatos} disabled={!formValido}>
+                <Button variant='contained' fullWidth onClick={handleInsertarDatos} disabled={!formValido || userData.userRol === "invitado"}>
                   + INSERTAR DATOS
                 </Button>
               </Tooltip>
@@ -277,6 +277,7 @@ function Dashboard() {
             <TableContainer>
               <Table aria-label='Tabla colección'>
                 <TableHead>
+<<<<<<< HEAD
                   <TableRow sx={{ backgroundColor: 'white' }}>
                     {userData.userRol === "admin" && (
                       <TableCell sx={{ color: 'primary.light', fontWeight: 'bold' }}></TableCell>
@@ -285,6 +286,16 @@ function Dashboard() {
                     <TableCell sx={{ color: 'primary.light', fontWeight: 'bold' }}>Marca</TableCell>
                     <TableCell sx={{ color: 'primary.light', fontWeight: 'bold' }}>Tipo</TableCell>
                     <TableCell sx={{ color: 'primary.light', fontWeight: 'bold' }}>Precio</TableCell>
+=======
+                  <TableRow sx={{ backgroundColor: 'blue' }}>
+                    {userData.userRol === "admin" && (
+                      <TableCell sx={{ color: 'primary', fontWeight: 'bold' }}>Eliminar</TableCell>
+                    )}
+                    <TableCell sx={{ color: 'primary', fontWeight: 'bold' }}>Nombre</TableCell>
+                    <TableCell sx={{ color: 'primary', fontWeight: 'bold' }}>Marca</TableCell>
+                    <TableCell sx={{ color: 'primary', fontWeight: 'bold' }}>Tipo</TableCell>
+                    <TableCell sx={{ color: 'primary', fontWeight: 'bold' }}>Precio</TableCell>
+>>>>>>> 7b907fcd678294ed01e339312b02ab5a96a5231e
                   </TableRow>
                 </TableHead>
 
@@ -294,15 +305,16 @@ function Dashboard() {
                     <TableRow key={row.id}>
 
                       {/* Ícono de basura (borrar item) (solo se muestra cuando el rol del usuario es "admin") */}
-                      <TableCell>
                       {userData.userRol === "admin" && (
-                        <Tooltip title="Borrar este producto" placement="bottom" arrow>
-                          <Button onClick={() => handleDeleteItem(row.id)}>
-                            <DeleteForeverIcon />
-                          </Button>
-                        </Tooltip>
+                        <TableCell>
+                          <Tooltip title="Borrar este producto" placement="bottom" arrow>
+                            <Button onClick={() => handleDeleteItem(row.id)}>
+                              <DeleteForeverIcon />
+                            </Button>
+                          </Tooltip>
+                        </TableCell>
                       )}
-                      </TableCell>
+                      
 
                       <TableCell>{row.nombre}</TableCell>
 

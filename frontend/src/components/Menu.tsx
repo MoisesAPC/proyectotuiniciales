@@ -16,6 +16,7 @@ import ArticleIcon from '@mui/icons-material/Article';
 import HelpIcon from '@mui/icons-material/Help';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
 import AdbIcon from '@mui/icons-material/Adb';
 import Drawer from '@mui/material/Drawer';
 // Importamos el useSelector del react-redux
@@ -44,6 +45,8 @@ function Menu() {
   //Antes de esto tendremos que coger del store los datos
   const isLoggedIn = userData.isAutenticated;
 
+  // Nos aseguramos de que, si el usuario NO está logueado desde ninguna página, se devuelva automáticamente al página del Login.
+  // Esto funciona en todas las páginas de la aplicación gracias a que este componente (Menu) se renderiza en todas las páginas salvo en Login.
   useEffect(() => {
     if (!isLoggedIn) {
      navigate('/')
@@ -97,6 +100,25 @@ function Menu() {
                     </ListItemIcon>
                     
                     <ListItemText primary="Informes" sx={{ fontWeight: 'bold', color: 'primary.dark' }}/>
+
+                  </ListItemButton>
+                </ListItem>
+              </Link>
+            </Tooltip>
+          )}
+
+          {/* Gestión de usuarios (solo se muestra cuando el rol del usuario es "admin") */}
+          {userData.userRol === "admin" && (
+            <Tooltip title="Gestionar usuarios" placement="right" arrow>
+              <Link to='/gestion_usuarios' style={{textDecoration:'none', color:'black'}}>
+                <ListItem disablePadding>
+                  <ListItemButton>
+
+                    <ListItemIcon>
+                      <ArticleIcon />
+                    </ListItemIcon>
+                    
+                    <ListItemText primary="Gestión usuarios" sx={{ fontWeight: 'bold', color: 'primary.dark' }}/>
 
                   </ListItemButton>
                 </ListItem>
@@ -160,10 +182,13 @@ function Menu() {
 
             {/* Así mostramos el ícono del administrador solamente si el rol del usuario es de administrador */}
             {/* Para los "user", mostramos el icono AdbIcon */}
+            {/* Para los "invitado", mostramos el icono InsertEmoticonIcon */}
             {userData.userRol === "admin" ? (
                 <AdminPanelSettingsIcon />
             ) : userData.userRol === "user" ? (
                 <AdbIcon />
+            ) : userData.userRol === "invitado" ? (
+                <InsertEmoticonIcon />
             ) : null}
           </Toolbar>
 
