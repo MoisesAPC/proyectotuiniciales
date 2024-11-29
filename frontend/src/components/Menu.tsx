@@ -69,7 +69,7 @@ function Menu() {
         
           {/* Inicio */}
           <Tooltip title="Ir a la página Home" placement="right" arrow>
-            <Link to='/home' style={{textDecoration:'none', color:'black'}}>
+            <Link to='/home' style={{textDecoration:'none', color:'primary'}}>
               <ListItem disablePadding>
                 <ListItemButton>
 
@@ -88,7 +88,7 @@ function Menu() {
           {/* Informes (solo se muestra cuando el rol del usuario es "admin") */}
           {userData.userRol === "admin" && (
             <Tooltip title="Ir a la página de informes" placement="right" arrow>
-              <Link to='/reports' style={{textDecoration:'none', color:'black'}}>
+              <Link to='/reports' style={{textDecoration:'none', color:'primary'}}>
                 <ListItem disablePadding>
                   <ListItemButton>
 
@@ -106,7 +106,7 @@ function Menu() {
 
           {/* Ayuda */}
           <Tooltip title="Abrir manual de usuario" placement="right" arrow>
-            <Link to={'/public/Pestano_Castro_Moisés_Antonio_UT4A1.pdf'} target='_blank' style={{textDecoration:'none', color:'black'}}>
+            <Link to={'/public/Pestano_Castro_Moisés_Antonio_UT4A1.pdf'} target='_blank' style={{textDecoration:'none', color:'primary'}}>
               <ListItem disablePadding>
                 <ListItemButton>
 
