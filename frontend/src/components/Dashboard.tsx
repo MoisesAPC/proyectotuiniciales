@@ -274,13 +274,9 @@ function Dashboard() {
               <Table aria-label='Tabla colección'>
                 <TableHead>
                   <TableRow sx={{ backgroundColor: 'blue' }}>
-<<<<<<< HEAD
-                  <TableCell sx={{ color: 'primary', fontWeight: 'bold' }}>Eliminar</TableCell>
-=======
                     {userData.userRol === "admin" && (
                       <TableCell sx={{ color: 'primary', fontWeight: 'bold' }}></TableCell>
                     )}
->>>>>>> 1a197b1 (Quitar eliminar)
                     <TableCell sx={{ color: 'primary', fontWeight: 'bold' }}>Nombre</TableCell>
                     <TableCell sx={{ color: 'primary', fontWeight: 'bold' }}>Marca</TableCell>
                     <TableCell sx={{ color: 'primary', fontWeight: 'bold' }}>Tipo</TableCell>
