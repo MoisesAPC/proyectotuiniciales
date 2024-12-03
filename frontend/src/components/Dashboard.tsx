@@ -277,16 +277,6 @@ function Dashboard() {
             <TableContainer>
               <Table aria-label='Tabla colección'>
                 <TableHead>
-<<<<<<< HEAD
-                  <TableRow sx={{ backgroundColor: 'white' }}>
-                    {userData.userRol === "admin" && (
-                      <TableCell sx={{ color: 'primary.light', fontWeight: 'bold' }}></TableCell>
-                    )}
-                    <TableCell sx={{ color: 'primary.light', fontWeight: 'bold' }}>Nombre</TableCell>
-                    <TableCell sx={{ color: 'primary.light', fontWeight: 'bold' }}>Marca</TableCell>
-                    <TableCell sx={{ color: 'primary.light', fontWeight: 'bold' }}>Tipo</TableCell>
-                    <TableCell sx={{ color: 'primary.light', fontWeight: 'bold' }}>Precio</TableCell>
-=======
                   <TableRow sx={{ backgroundColor: 'blue' }}>
                     {userData.userRol === "admin" && (
                       <TableCell sx={{ color: 'primary', fontWeight: 'bold' }}>Eliminar</TableCell>
@@ -295,7 +285,6 @@ function Dashboard() {
                     <TableCell sx={{ color: 'primary', fontWeight: 'bold' }}>Marca</TableCell>
                     <TableCell sx={{ color: 'primary', fontWeight: 'bold' }}>Tipo</TableCell>
                     <TableCell sx={{ color: 'primary', fontWeight: 'bold' }}>Precio</TableCell>
->>>>>>> 7b907fcd678294ed01e339312b02ab5a96a5231e
                   </TableRow>
                 </TableHead>
 
