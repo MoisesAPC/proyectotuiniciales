@@ -28,7 +28,7 @@ function Reports() {
   }
 
   async function obtenerDatosEnTablaUsuariosReports () {
-    fetch(`http://localhost:3030/getUsers`)
+    fetch(`http://localhost:3030/getUsuarios`)
     .then(response => response.json())
     .then (response => {
 

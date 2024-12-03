@@ -53,7 +53,7 @@ return (
   <MaterialTable 
     columns={col}
     data={tableData}
-    title="Colección de Informes"
+    title="Informe de coleccion"
 
     // Mostramos la suma de los los valores de cada campo de los precios
     renderSummaryRow={({ column, data }) =>
